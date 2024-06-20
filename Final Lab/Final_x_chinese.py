@@ -16,11 +16,13 @@ y_max = df['單價'].max() # 設定刻度的上限
 
 # Q1 
 # 將相同縣市名稱的索引設置為相同的值
-# df['縣市索引'] = df.groupby('縣市').ngroup()
+df['縣市索引'] = df.groupby('縣市').ngroup()
+# df = df.sort_values(by='縣市索引')
 # img_price_city = df[['縣市', '單價', '縣市索引']]
 # idx_unique = img_price_city['縣市索引'].unique()
+df['縣市索引_縣市'] = df['縣市索引'].astype(str) + '_' + df['縣市']
 # 顯示中文
-idx_unique = df['縣市'].unique()
+idx_unique = df['縣市索引_縣市'].unique()
 plt.subplot(1, 3, 1)                 # plt.subplot(列數, 行數, 圖形編號)設定第1
 # plt.scatter(img_price_city['縣市索引'], img_price_city['單價'])
 plt.scatter(df['縣市'], df['單價'])
@@ -34,11 +36,13 @@ plt.yticks(y_ticks)
 plt.grid(ls='--', lw=0.5, c='gray', axis='y')
 
 # # Q2 
-# df['用途索引'] = df.groupby('主要用途').ngroup()
+df['用途索引'] = df.groupby('主要用途').ngroup()
+# df = df.sort_values(by='用途索引')
 # img_price_mainPurpose = df[['主要用途', '單價', '用途索引']]
 # img_price_mainPurpose = img_price_mainPurpose.sort_values(by=['主要用途'])
 # idx_unique = img_price_mainPurpose['用途索引'].unique()
-idx_unique = df['主要用途'].unique()
+df['用途索引_用途'] = df['用途索引'].astype(str) + '_' + df['主要用途']
+idx_unique = df['用途索引_用途'].unique()
 plt.subplot(1, 3, 2)                 # plt.subplot(列數, 行數, 圖形編號)設定第2
 # plt.scatter(img_price_mainPurpose['用途索引'], img_price_mainPurpose['單價'])
 plt.scatter(df['主要用途'], df['單價'])
@@ -52,11 +56,13 @@ plt.yticks(y_ticks)
 plt.grid(ls='--', lw=0.5, c='gray', axis='y')
 
 # Q3 
-# df['建物型態索引'] = df.groupby('建物型態').ngroup()
+df['建物型態索引'] = df.groupby('建物型態').ngroup()
+df = df.sort_values(by='建物型態索引')
 # img_price_buildingType = df[['建物型態', '單價', '建物型態索引']]
 # img_price_buildingType = img_price_buildingType.sort_values(by=['建物型態'])
 # idx_unique = img_price_buildingType['建物型態索引'].unique()
-idx_unique = df['建物型態'].unique()
+df['建物型態索引_建物型態'] = df['建物型態索引'].astype(str) + '_' + df['建物型態']
+idx_unique = df['建物型態索引_建物型態'].unique()
 plt.subplot(1, 3, 3)                 # plt.subplot(列數, 行數, 圖形編號)設定第3
 # plt.scatter(img_price_buildingType['建物型態索引'], img_price_buildingType['單價'])
 plt.scatter(df['建物型態'], df['單價'])
