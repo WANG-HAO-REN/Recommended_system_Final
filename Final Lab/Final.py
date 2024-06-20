@@ -4,27 +4,66 @@ import numpy as np
 csv_name = r"c:\Users\Jimmy\Desktop\Recommender_Systems\Recommended_system_Final\Final Lab\\1. train.csv"
 df = pd.read_csv(csv_name)
 
-df = df[['ID','縣市','鄉鎮市區','路名','土地面積','主要用途','主要建材','屋齡','建物面積','橫坐標','縱坐標','主建物面積','陽台面積','附屬建物面積','單價']]
+df = df[['ID','縣市','鄉鎮市區','路名','土地面積','建物型態','主要用途','主要建材','屋齡','建物面積','橫坐標','縱坐標','主建物面積','陽台面積','附屬建物面積','單價']]
 
+# Q1 
 # 將相同縣市名稱的索引設置為相同的值
 df['縣市索引'] = df.groupby('縣市').ngroup()
 img_price_city = df[['縣市', '單價', '縣市索引']]
 img_price_city = img_price_city.sort_values(by=['縣市'])
+idx_unique = img_price_city['縣市索引'].unique()
 
-city_idx_unique = img_price_city['縣市索引'].unique()
 
-plt.figure()
+# 創建一個包含三個子圖的圖形，並調整寬度
+plt.figure(figsize=(18, 6))  # 將圖形寬度設置為18，高度設置為6
+y_max = df['單價'].max() # 設定刻度的上限
+
+plt.subplot(1, 3, 1)                 # plt.subplot(列數, 行數, 圖形編號)設定第1
 plt.scatter(img_price_city['縣市索引'], img_price_city['單價'])
 plt.title('The relationship between housing price and city')
 plt.xlabel('city')
-plt.ylabel('price')
+plt.ylabel('Housing price')
 # 設置 x 軸刻度位置和標籤
-y_min = df['單價'].min()
-y_max = df['單價'].max()
 y_ticks = np.arange(0, y_max , 2.5)
-plt.xticks(range(len(city_idx_unique)), city_idx_unique)
+plt.xticks(range(len(idx_unique)), idx_unique)
+plt.yticks(y_ticks)
+plt.grid(ls='--', lw=0.5, c='gray', axis='y')
+
+# Q2 
+df['用途索引'] = df.groupby('主要用途').ngroup()
+img_price_mainPurpose = df[['主要用途', '單價', '用途索引']]
+img_price_mainPurpose = img_price_mainPurpose.sort_values(by=['主要用途'])
+idx_unique = img_price_mainPurpose['用途索引'].unique()
+
+plt.subplot(1, 3, 2)                 # plt.subplot(列數, 行數, 圖形編號)設定第2
+plt.scatter(img_price_mainPurpose['用途索引'], img_price_mainPurpose['單價'])
+plt.title('The relationship between housing price and main purpose')
+plt.xlabel('main purpose')
+plt.ylabel('Housing price')
+y_ticks = np.arange(0, y_max , 2.5)
+plt.xticks(range(len(idx_unique)), idx_unique)
 plt.yticks(y_ticks)
 # axis：画哪个轴的网格线，默认x轴和y轴都画 c : 顏色
 plt.grid(ls='--', lw=0.5, c='gray', axis='y')
 
+# Q3 
+df['建物型態索引'] = df.groupby('建物型態').ngroup()
+img_price_buildingType = df[['建物型態', '單價', '建物型態索引']]
+img_price_buildingType = img_price_buildingType.sort_values(by=['建物型態'])
+idx_unique = img_price_buildingType['建物型態索引'].unique()
+
+plt.subplot(1, 3, 3)                 # plt.subplot(列數, 行數, 圖形編號)設定第3
+plt.scatter(img_price_buildingType['建物型態索引'], img_price_buildingType['單價'])
+plt.title('The relationship between housing price and building type')
+plt.xlabel('building type')
+plt.ylabel('Housing price')
+y_ticks = np.arange(0, y_max , 2.5)
+plt.xticks(range(len(idx_unique)), idx_unique)
+plt.yticks(y_ticks)
+# axis：画哪个轴的网格线，默认x轴和y轴都画 c : 顏色
+plt.grid(ls='--', lw=0.5, c='gray', axis='y')
+
+
+# 顯示圖形
+plt.tight_layout()  # 自動調整子圖參數以適應圖形區域
 plt.show()
