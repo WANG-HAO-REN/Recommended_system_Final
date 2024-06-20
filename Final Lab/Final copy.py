@@ -11,6 +11,7 @@ df = df[['ID','縣市','建物型態','主要用途','單價']]
 # 該改為支持 中文的字體 設定一次就行
 plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei'] 
 plt.rcParams['axes.unicode_minus'] = False  # 解决負號顯示
+plt.figure(figsize=(18, 6))  # 將圖形寬度設置為18，高度設置為6
 y_max = df['單價'].max() # 設定刻度的上限
 
 # Q1 
@@ -22,11 +23,7 @@ y_max = df['單價'].max() # 設定刻度的上限
 idx_unique = df['縣市'].unique()
 
 # 創建一個包含三個子圖的圖形，並調整寬度
-plt.figure(figsize=(18, 6))  # 將圖形寬度設置為18，高度設置為6
-
 plt.subplot(1, 3, 1)                 # plt.subplot(列數, 行數, 圖形編號)設定第1
-plt.plot()
-
 # plt.scatter(img_price_city['縣市索引'], img_price_city['單價'])
 plt.scatter(df['縣市'], df['單價'])
 plt.title('The relationship between housing price and city')
